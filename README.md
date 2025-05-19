@@ -24,6 +24,46 @@ A lightweight serverless API that allows users to register, manage, and monitor 
 - 📦 Fully serverless and edge-ready
 
 ---
+## Database schema
+![Screenshot (120)](https://github.com/user-attachments/assets/09c30225-697a-45e2-8676-89b9a154f711)
+
+### 1.🧑‍💼 It All Starts With a User
+
+Meet Alex, a product engineer who wants to monitor their startup’s website uptime.
+To begin, Alex needs an account in your app. So the very first thing stored is:
+
+✅ A user
+- Unique email
+- Password (hashed for security)
+- Automatically gets a UUID <br>
+### See the users table  <br>
+Why start here?<br>
+Because all monitoring data must belong to someone — authentication and ownership come first.
+
+### 2.🔗 Alex Adds URLs to Monitor
+
+Once Alex logs in, they can submit websites to track — like https://mycoolapp.com.
+Every time they submit a URL, a new record is created in:
+
+🔍 monitored_urls
+- Tied to Alex's user ID
+- Stores the URL, how often it should be checked (interval), and when it was added<br>
+### see monitored_urls table <br>
+Why this second?<br>
+Because a URL can’t exist in the system without a user who owns it. This lets you show Alex their own monitoring dashboard and enforce access control.
+
+### 3.📈 The System Starts Monitoring
+
+Now that the URL is saved, your backend scheduler (like cron or a background worker) begins to check the site at regular intervals (e.g., every 5 minutes).
+Each time a check happens, the result is saved in:
+
+📊 check_results<br>
+- Linked to the monitored URL
+- Saves the status code, is it up, response time, and timestamp<br>
+### see check_results table <br>
+Why this second?<br>
+Because a URL can’t exist in the system without a user who owns it. This lets you show Alex their own monitoring dashboard and enforce access control.
+
 
 ## ⚙️ Setup Instructions
 
@@ -54,11 +94,8 @@ url-monitoring-api/
 │ │ ├── result.ts
 │ │ └── urls.ts
 │ ├── utils/
-│ │ ├── db.ts
-│ │ ├── jwt.ts
-│ │ └── validation.ts
+│ │ └──  db.ts
 │ └──index.ts # Main app entry with route mounts
-│ 
 │
 ├── .env
 ├── drizzle.config.ts
