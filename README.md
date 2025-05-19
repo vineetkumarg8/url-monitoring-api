@@ -37,7 +37,6 @@ cd url-monitoring-api
 ```bash
 
 url-monitoring-api/
-this is my folder structure - url-monitoring-api/
 │
 ├── drizzle/
 │ ├── migrations/
