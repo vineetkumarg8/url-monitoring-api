@@ -109,6 +109,74 @@ npx drizzle-kit push
 npm run dev
 ```
 
+## 🚀 Deployment (Cloudflare Workers)
+### 1.Install Wrangler
+```bash
+npm install -g wrangler
+```
+### 2.Wrangler configuration
+```bash
+# wrangler.toml
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+compatibility_flags = [ "nodejs_compat" ]
+
+[build]
+command = "npm run build"
+
+[triggers]
+crons = ["*/5 * * * *"]
+
+[vars]
+DATABASE_URL = "YOUR_POSTGRES_URL"
+JWT_SECRET = "your_jwt_secret"
+```
+### 3.Deploy
+```bash
+ npx wrangler deploy
+```
+
+## API Testing
+### 1.Register a new user
+
+```bash
+curl -X POST https://your-worker-url/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com", "password":"mypassword"}'
+```
+
+### 2.Login and get JWT token
+
+```bash
+curl -X POST https://your-worker-url/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com", "password":"mypassword"}'
+```
+Use the returned JWT to authenticate subsequent requests.
+
+### 3.Create a new monitored URL (Authenticated)
+```bash
+CopyEdit
+curl -X POST http://localhost:3000/api/urls \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN_HERE" \
+  -d '{"url": "https://example.com"}'
+```
+### 4.Get monitored URLs (Authenticated)
+```bash
+CopyEdit
+curl -X GET http://localhost:3000/api/urls \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN_HERE"
+```
+### 5.Get check results with pagination (Authenticated)
+```bash
+CopyEdit
+curl -X GET "http://localhost:3000/api/results?urlId=1&page=1" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN_HERE"
+```
+
+
+
 
 
 
