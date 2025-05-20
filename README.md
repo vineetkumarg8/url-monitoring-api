@@ -1,4 +1,4 @@
-# 🌐 URL Monitoring API
+![Screenshot (127)](https://github.com/user-attachments/assets/abb8efbc-172e-4176-8076-3cb117e3b71a)# 🌐 URL Monitoring API
 
 A lightweight serverless API that allows users to register, manage, and monitor the health of URLs periodically using Cloudflare Workers, Hono, PostgreSQL, and Drizzle ORM.
 
@@ -173,7 +173,17 @@ JWT_SECRET = "your_jwt_secret"
  npx wrangler deploy
 ```
 
-## API Testing
+## Scheduling Logs
+```bash
+# wrangler.toml
+[triggers]
+crons = ["*/5 * * * *"]
+```
+- Cloudflare will trigger your Worker every 5 minutes (standard cron syntax).<br>
+- Worker handle these scheduled events via the special scheduled event handler.
+- ![Screenshot (140)](https://github.com/user-attachments/assets/094927be-686a-4ae9-9e76-c37eb2c795b7)
+
+## API Testing using curl Local
 ### 1.Register a new user
 
 ```bash
@@ -181,6 +191,7 @@ curl -X POST https://your-worker-url/register \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com", "password":"mypassword"}'
 ```
+
 
 ### 2.Login and get JWT token
 
@@ -211,6 +222,55 @@ CopyEdit
 curl -X GET "http://localhost:3000/api/results?urlId=1&page=1" \
   -H "Authorization: Bearer YOUR_JWT_TOKEN_HERE"
 ```
+## API Testing usin Postman
+### 1.Register a new user
+
+![Screenshot (127)](https://github.com/user-attachments/assets/7825a6fc-8784-4dbb-85d5-5f55ef07f99d)
+choose - POST
+Enter url - https://url-monitoring-api.vineetkumar12392.workers.dev/auth/register <br>
+in body ,choose row<br>
+enter - {"email":"test@example.com", "password":"mypassword"} <br>
+click Send <br>
+result - registered succesfully! <br>
+
+### 2.Login and get JWT token
+
+![Screenshot (127)](https://github.com/user-attachments/assets/c36342c3-bf5f-461e-a39f-31576110f02d)
+only change Enter URL - https://url-monitoring-api.vineetkumar12392.workers.dev/auth/login <br>
+click Send <br>
+result - you will get token ex- (eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImV4cCI6MTc0NzgxMTA3N30.cAaS55_m17_5uuX_M-6jrBA76Fm23djD7GMyq45GgRE)
+
+### 3.Create a new monitored URL(Authenticated)
+![Screenshot (128)](https://github.com/user-attachments/assets/bb9c73a9-3e72-4109-b80a-82aaf51b9de5)
+choose - POST
+Enter Url - https://url-monitoring-api.vineetkumar12392.workers.dev/urls <br>
+in authorization choose Auth Type - Bearer Token <br>
+paste token <br>
+in body - {"url": "https://example.com"} <br>
+click Send <br>
+Output - url added successfully
+
+### 4.Get monitored URLs (Authenticated)
+![Screenshot (130)](https://github.com/user-attachments/assets/21d589cb-bd8f-438c-a964-6084e13adf1f)
+choose - GET <br>
+click Send <br>
+output - "id","userId","url","createdAt","lastCheckedAt"
+
+### 5.Get check results with pagination (Authenticated)
+
+![Screenshot (133)](https://github.com/user-attachments/assets/7f64c9cc-1ec4-47ff-b2ad-35b10c82afc4)
+Enter url - https://url-monitoring-api.vineetkumar12392.workers.dev/result <br>
+click Send <br>
+output -  "page","limit","total","results"
+
+
+
+
+
+
+
+
+
 
 
 
