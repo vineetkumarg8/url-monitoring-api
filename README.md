@@ -64,7 +64,7 @@ Each time a check happens, the result is saved in:
 Why this second?<br>
 Because a URL can’t exist in the system without a user who owns it. This lets you show Alex their own monitoring dashboard and enforce access control. <br>
 
-## 🛡️ Authentication Approach >br>
+## 🛡️ Authentication Approach 
 This project uses JWT-based stateless authentication to secure API endpoints:
 
 - Registration (/register):<br>
@@ -76,7 +76,7 @@ Upon successful login, a JWT is issued containing the user ID. This token is sig
 - Protected Routes:<br>
 Endpoints requiring authentication validate the JWT using middleware to ensure only authorized users can access sensitive resources like URL monitoring.
 
-## ⏰ Scheduling Mechanism (Cloudflare Cron Triggers)<br>
+## ⏰ Scheduling Mechanism (Cloudflare Cron Triggers)
 To automate health checks for registered URLs, the project uses Cloudflare Workers' built-in cron triggers:
 
 - Defined in wrangler.toml under [triggers]:
