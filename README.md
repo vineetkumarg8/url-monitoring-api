@@ -85,6 +85,7 @@ To automate health checks for registered URLs, the project uses Cloudflare Worke
 crons = ["*/5 * * * *"]
 ```
 - This runs the worker every 5 minutes, triggering background URL checks without needing any external service (like CRON jobs, GitHub Actions, etc.).<br>
+- ![Screenshot (140)](https://github.com/user-attachments/assets/094927be-686a-4ae9-9e76-c37eb2c795b7)
 
 ✅ Why This Choice?<br>
 - Serverless-native: No need to manage servers or uptime.
@@ -111,15 +112,6 @@ The scheduled cron handler (fetch + scheduled event in index.ts) performs the fo
 - Timestamp
 
 This ensures that monitoring is robust, fault-tolerant, and recorded for reporting or alerting.
-## Scheduling Logs
-```bash
-# wrangler.toml
-[triggers]
-crons = ["*/5 * * * *"]
-```
-- Cloudflare will trigger your Worker every 5 minutes (standard cron syntax).<br>
-- Worker handle these scheduled events via the special scheduled event handler.
-- ![Screenshot (140)](https://github.com/user-attachments/assets/094927be-686a-4ae9-9e76-c37eb2c795b7)
 
 ## ⚙️ Setup Instructions
 
