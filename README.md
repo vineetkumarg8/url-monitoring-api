@@ -1,4 +1,4 @@
-![Screenshot (127)](https://github.com/user-attachments/assets/abb8efbc-172e-4176-8076-3cb117e3b71a)# 🌐 URL Monitoring API
+# 🌐 URL Monitoring API
 
 A lightweight serverless API that allows users to register, manage, and monitor the health of URLs periodically using Cloudflare Workers, Hono, PostgreSQL, and Drizzle ORM.
 
@@ -225,7 +225,8 @@ curl -X GET "http://localhost:3000/api/results?urlId=1&page=1" \
 ## API Testing usin Postman
 ### 1.Register a new user
 
-![Screenshot (127)](https://github.com/user-attachments/assets/7825a6fc-8784-4dbb-85d5-5f55ef07f99d)
+![Screenshot (121)](https://github.com/user-attachments/assets/f36029ee-902b-4e2b-93a0-f0f59ab115af)
+
 choose - POST
 Enter url - https://url-monitoring-api.vineetkumar12392.workers.dev/auth/register <br>
 in body ,choose row<br>
@@ -242,6 +243,8 @@ result - you will get token ex- (eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW
 
 ### 3.Create a new monitored URL(Authenticated)
 ![Screenshot (128)](https://github.com/user-attachments/assets/bb9c73a9-3e72-4109-b80a-82aaf51b9de5)
+![Screenshot (141)](https://github.com/user-attachments/assets/582cc986-51a9-4414-995a-cb580923d5cd)
+
 choose - POST
 Enter Url - https://url-monitoring-api.vineetkumar12392.workers.dev/urls <br>
 in authorization choose Auth Type - Bearer Token <br>
@@ -251,7 +254,8 @@ click Send <br>
 Output - url added successfully
 
 ### 4.Get monitored URLs (Authenticated)
-![Screenshot (130)](https://github.com/user-attachments/assets/21d589cb-bd8f-438c-a964-6084e13adf1f)
+![Screenshot (131)](https://github.com/user-attachments/assets/63852da4-2789-4353-b5ba-16ed78ff9680)
+
 choose - GET <br>
 click Send <br>
 output - "id","userId","url","createdAt","lastCheckedAt"
