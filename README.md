@@ -118,7 +118,7 @@ JWT_SECRET=your_jwt_secret
 
 ```
 
-### 🧱 Database Setup (Drizzle)
+## 🧱 Database Setup (Drizzle)
 
 - Configure Drizzle
 
