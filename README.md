@@ -73,7 +73,7 @@ Because a URL can’t exist in the system without a user who owns it. This lets 
 git clone https://github.com/your-username/url-monitoring-api.git
 cd url-monitoring-api
 ```
-## 2.📁 Folder Structure
+### 2.📁 Folder Structure
 ```bash
 
 url-monitoring-api/
@@ -105,12 +105,12 @@ url-monitoring-api/
 ├── tsconfig.json
 └── wrangler.toml
 ```
-## 3.Install Dependencies
+### 3.Install Dependencies
 ```bash
 npm install
 ```
 
-## 4. Configure Environment
+### 4. Configure Environment
 - Create a .env file:
 ```bash
 DATABASE_URL=your_postgres_connection_string
@@ -118,7 +118,7 @@ JWT_SECRET=your_jwt_secret
 
 ```
 
-## 🧱 Database Setup (Drizzle)
+### 🧱 Database Setup (Drizzle)
 
 - Configure Drizzle
 
@@ -134,13 +134,13 @@ export default {
 };
 ```
 
-## Run Migrations
+### Run Migrations
 
 ```bash
 npx drizzle-kit push
 ```
 
-## Local Dev
+### Local Dev
 
 ```bash
 npm run dev
