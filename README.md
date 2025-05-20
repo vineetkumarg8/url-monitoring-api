@@ -62,8 +62,64 @@ Each time a check happens, the result is saved in:
 - Saves the status code, is it up, response time, and timestamp<br>
 ### see check_results table <br>
 Why this second?<br>
-Because a URL can’t exist in the system without a user who owns it. This lets you show Alex their own monitoring dashboard and enforce access control.
+Because a URL can’t exist in the system without a user who owns it. This lets you show Alex their own monitoring dashboard and enforce access control. <br>
 
+## 🛡️ Authentication Approach >br>
+This project uses JWT-based stateless authentication to secure API endpoints:
+
+- Registration (/register):<br>
+Users register by providing an email and password. The password is hashed using bcryptjs before being stored securely in the database.
+
+- Login (/login):<br>
+Upon successful login, a JWT is issued containing the user ID. This token is signed with a secret stored in JWT_SECRET and includes an expiration time.
+
+- Protected Routes:<br>
+Endpoints requiring authentication validate the JWT using middleware to ensure only authorized users can access sensitive resources like URL monitoring.
+
+## ⏰ Scheduling Mechanism (Cloudflare Cron Triggers)<br>
+To automate health checks for registered URLs, the project uses Cloudflare Workers' built-in cron triggers:
+
+- Defined in wrangler.toml under [triggers]:
+```bash
+[triggers]
+crons = ["*/5 * * * *"]
+```
+- This runs the worker every 5 minutes, triggering background URL checks without needing any external service (like CRON jobs, GitHub Actions, etc.).<br>
+
+✅ Why This Choice?<br>
+- Serverless-native: No need to manage servers or uptime.
+
+- Reliable & Cost-effective: Executes within the Cloudflare edge network for free (on the developer plan).
+
+- Simple setup: Integrated directly into the Worker deployment pipeline.
+
+## 🔁 Background Health Check Logic
+The scheduled cron handler (fetch + scheduled event in index.ts) performs the following:
+
+1.Fetch Active URLs from the database marked as enabled/monitored.
+
+2.Ping Each URL using fetch() with timeout/error handling.
+
+3.Store Results in the results table, logging:
+
+- Status (up/down)
+
+- HTTP status code
+
+- Response time
+
+- Timestamp
+
+This ensures that monitoring is robust, fault-tolerant, and recorded for reporting or alerting.
+## Scheduling Logs
+```bash
+# wrangler.toml
+[triggers]
+crons = ["*/5 * * * *"]
+```
+- Cloudflare will trigger your Worker every 5 minutes (standard cron syntax).<br>
+- Worker handle these scheduled events via the special scheduled event handler.
+- ![Screenshot (140)](https://github.com/user-attachments/assets/094927be-686a-4ae9-9e76-c37eb2c795b7)
 
 ## ⚙️ Setup Instructions
 
@@ -173,16 +229,6 @@ JWT_SECRET = "your_jwt_secret"
  npx wrangler deploy
 ```
 
-## Scheduling Logs
-```bash
-# wrangler.toml
-[triggers]
-crons = ["*/5 * * * *"]
-```
-- Cloudflare will trigger your Worker every 5 minutes (standard cron syntax).<br>
-- Worker handle these scheduled events via the special scheduled event handler.
-- ![Screenshot (140)](https://github.com/user-attachments/assets/094927be-686a-4ae9-9e76-c37eb2c795b7)
-
 ## API Testing using curl Local
 ### 1.Register a new user
 
@@ -191,8 +237,6 @@ curl -X POST https://your-worker-url/register \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com", "password":"mypassword"}'
 ```
-
-
 ### 2.Login and get JWT token
 
 ```bash
